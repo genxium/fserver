@@ -1,0 +1,9 @@
+%% -*- erlang -*-
+{ok, AppDirs} = file:list_dir("./deps/"),
+{ok, CurrentDir} = file:get_cwd(),
+[code:add_path(filename:join([CurrentDir, "deps", AppDir, "ebin/"])) || AppDir <- AppDirs, not lists:prefix(".", AppDir)],
+CONFIG.
+
+
+
+

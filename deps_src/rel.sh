@@ -1,5 +1,5 @@
 #!/bin/bash
-rel_dir=../lib/
+rel_dir=../deps/
 for app in $(ls _build/default/lib/)
 do
     mkdir -p $rel_dir/$app

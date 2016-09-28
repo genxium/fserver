@@ -1,0 +1,22 @@
+%% -*- mode: erlang -*-
+
+{application, 'fakeoauth2server',
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, {'fakeoauth2server_app', []}},
+  {applications,
+   [kernel,
+    stdlib,
+    cowboy
+   ]},
+  {env,[
+        {log_level, debug},
+        {log_dir, "/tmp/fakeoauth2server/"}
+       ]},
+  {modules, []},
+
+  {contributors, []},
+  {licenses, []},
+  {links, []}
+ ]}.

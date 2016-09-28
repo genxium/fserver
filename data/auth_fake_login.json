@@ -1,0 +1,10 @@
+[
+    {
+        "fake_acc_id": "test_user_1",
+        "code": "10b788e3b42043c8459a57a8d8ab5d9f"
+    },
+    {
+        "fake_acc_id": "test_user_2",
+        "code": "20b788e3b42043c8459a57a8d8ab5d9f"
+    }
+]
