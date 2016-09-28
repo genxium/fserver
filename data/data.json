@@ -1,0 +1,27 @@
+[
+    {
+        "app_id":"app_id_1",
+        "secret":"secret1",
+        "acc_info": [
+            {
+                "fake_acc_id":"test_user_1",
+                "code": "10b788e3b42043c8459a57a8d8ab5d9f",
+                "access_token": "1ezXcEiiBSKSxW0eoylIeAsR0GmYd1awCffdHgb4fhS_KKf2CotGj2cBNUKQQvj-G0ZWEE5-uBjBz941EOPqDQy5sS_GCs2z40dnvU99Y5AI1bw2uqN--2jXoBLIM5d6L9RImvm8Vg8cBAiLpWA8Vw",
+                "openid": "1LVPpjqs9BhvzwPj5A-vTYAX3GLc",
+                "unionid": "unionid_test_user_1",
+                "nickname":"user_1",
+                "headimgurl":"headimgurl_1"               
+            },
+            {
+                "fake_acc_id":"test_user_2",
+                "code": "20b788e3b42043c8459a57a8d8ab5d9f",
+                "access_token": "2ezXcEiiBSKSxW0eoylIeAsR0GmYd1awCffdHgb4fhS_KKf2CotGj2cBNUKQQvj-G0ZWEE5-uBjBz941EOPqDQy5sS_GCs2z40dnvU99Y5AI1bw2uqN--2jXoBLIM5d6L9RImvm8Vg8cBAiLpWA8Vw",
+                "openid": "2LVPpjqs9BhvzwPj5A-vTYAX3GLc",
+                "unionid": "unionid_test_user_2",
+                "nickname":"user_2",
+                "headimgurl":"headimgurl_2"
+            }
+        ]
+    }
+]
+
