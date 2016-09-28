@@ -17,5 +17,6 @@ _plugins
 _tdeps
 logs
 _build
+/deps/
 /deps_src/_build/
 /deps_src/compile_commands.json
