@@ -17,3 +17,9 @@
 - 数据文件 data/data.json
 - 端口在config/app.config修改
 
+## 源码编译出deps
+	
+	cd deps_source
+	../rebar3 compile
+	./rel.sh
+   
