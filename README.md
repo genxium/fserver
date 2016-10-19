@@ -9,7 +9,7 @@
     cd fakeoauth2server
     tar zxvf package/deps_ub14.04.tar.gz
     ./rebar3 compile
-    ./sh/app/fakeoauth2server --nodename fakeoauth2server@127.0.0.1 --cmd=live
+    ./sh/app/fakeoauth2server live
 
 
 ## 其他
