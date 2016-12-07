@@ -1,0 +1,58 @@
+[
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/decoder.c"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "cc -c -m64 -Ic_src/ -g -Wall -Werror -O3 -fno-strict-aliasing -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/decoder.c -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/decoder.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/encoder.c"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "cc -c -m64 -Ic_src/ -g -Wall -Werror -O3 -fno-strict-aliasing -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/encoder.c -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/encoder.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/jiffy.c"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "cc -c -m64 -Ic_src/ -g -Wall -Werror -O3 -fno-strict-aliasing -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/jiffy.c -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/jiffy.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/utf8.c"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "cc -c -m64 -Ic_src/ -g -Wall -Werror -O3 -fno-strict-aliasing -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/utf8.c -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/utf8.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/util.c"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "cc -c -m64 -Ic_src/ -g -Wall -Werror -O3 -fno-strict-aliasing -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/util.c -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/util.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/doubles.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/doubles.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/doubles.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/bignum-dtoa.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/bignum-dtoa.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/bignum-dtoa.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/bignum.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/bignum.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/bignum.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/cached-powers.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/cached-powers.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/cached-powers.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/diy-fp.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/diy-fp.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/diy-fp.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/double-conversion.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/double-conversion.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/double-conversion.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/fast-dtoa.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/fast-dtoa.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/fast-dtoa.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/fixed-dtoa.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/fixed-dtoa.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/fixed-dtoa.o"
+},
+{ "file"      : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/strtod.cc"
+, "directory" : "/Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy"
+, "command"   : "c++ -c -m64 -Ic_src/ -g -Wall -Werror -O3 -g -Wall -fPIC -MMD -I\"/Users/roowe/opt/otp_18/lib/erlang/lib/erl_interface-3.8/include\" -I\"/Users/roowe/opt/otp_18/lib/erlang/erts-7.0/include\" /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/strtod.cc -o /Users/roowe/my/fakeoauth2server/lib/_build/default/lib/jiffy/c_src/double-conversion/strtod.o"
+}
+]

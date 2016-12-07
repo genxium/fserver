@@ -17,6 +17,7 @@ start_http() ->
                  {"/auth/fake/login", auth_fake_login, []},
                  {"/sns/oauth2/access_token", sns_oauth2_access_token, []},
                  {"/sns/userinfo", sns_userinfo, []},
+                 {"/connect/oauth2/authorize", connect_oauth2_authorize, []},
                  {"/[...]", http_handler_404, []}
                 ],
     Dispatch = cowboy_router:compile([{'_', PathsList}]),
@@ -24,7 +25,7 @@ start_http() ->
                                  [{port, Port}],
                                  #{
                                    env => #{
-                                     dispatch => Dispatch                                             
+                                     dispatch => Dispatch
                                     }
                                   }
                                 ),
