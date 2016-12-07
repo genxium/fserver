@@ -17,10 +17,10 @@
 ubuntu平台可使用预编译好的依赖，效果等价上面获取和编译依赖，但是省去clone依赖的等待时间
 
     cd <your_fakeoauth2server_dir>
-    tar zxvf package/deps_ub14.04.tar.gz ./
+    tar zxvf package/deps_ub14.04.tar.gz -C .
     
 
-### 编译
+## 编译
 	
 	cd <your_fakeoauth2server_dir>
 	./rebar3 compile
