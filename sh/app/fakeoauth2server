@@ -39,15 +39,16 @@ export ERL_CRASH_DUMP=$LOG_DIR/erl_crash_$DATETIME.dump ## for crash_dump
 
 export ERL_MAX_ETS_TABLES=4000 ## default 1400
 
-## 设置ulimit
-if [[ $UID == 0 ]]; then
-    ulimit -HSn 65535
-fi
-if [ -d "$PROJECT_HOME/_build/default/lib/" ]; then
-    EBIN_ARGS="-pa $PROJECT_HOME/_build/default/lib/*/ebin $PROJECT_HOME/deps/*/ebin "
-else
-    EBIN_ARGS="-pa $PROJECT_HOME/apps/*/ebin"
-fi
+function expand_ebin() {
+    dir="$1/*"
+    local ret=""
+    for folder in $dir
+    do
+	    ret=$ret" $folder/ebin"
+    done
+    echo $ret
+}
+EBIN_ARGS="-pa $PROJECT_HOME/_build/default/lib/fakeoauth2server/ebin/ `expand_ebin $PROJECT_HOME/deps`"
 
 if [ -f "$CONFIG_FILE" ]; then
     CONFIG_ARGS="-config $CONFIG_FILE"
