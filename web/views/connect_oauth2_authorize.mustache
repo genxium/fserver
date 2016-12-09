@@ -3,9 +3,31 @@
   <head>
     <meta charset="UTF-8">    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimeStamp</title> 
+    <title>FakeOAuth2Relay</title> 
   </head>
   <body>    
-    {{timestamp}}
+		{{#accInfo}}
+			<div>
+				<button onclick="invokeApi2('{{fakeAccId}}')">{{fakeAccId}}</button>
+			</div>
+		{{/accInfo}}
   </body>
+	<script>
+		function invokeApi2(fakeAccountId) {
+			var oReq = new XMLHttpRequest();
+			oReq.addEventListener("load", function() {
+				console.dir(this.responseText);
+				var resp = JSON.parse(this.responseText); 
+				var code = resp.code;
+				if (!code) {
+					alert("Invalid code returned!");
+				} else {
+					window.location.assign("{{redirectUri}}" + "?code=" + encodeURIComponent(code) + "&state=" + encodeURIComponent("{{state}}"));
+				}
+			});
+			oReq.open("GET", "/auth/fake/login?fake_acc_id=" + encodeURIComponent(fakeAccountId) + "&appid=" + encodeURIComponent("{{appid}}"));
+			oReq.send();
+		}
+
+	</script>
 </html>
