@@ -1,4 +1,5 @@
 core
+*.lock
 .rebar3
 _*
 .eunit
@@ -9,8 +10,8 @@ _*
 *.swo
 .erlang.cookie
 ebin
-log
-erl_crash.dump
+*.log
+*.dump
 .rebar
 _rel
 _deps
@@ -18,6 +19,8 @@ _plugins
 _tdeps
 logs
 _build
-/deps/
-/deps_src/_build/
-/deps_src/compile_commands.json
+
+deps/
+deps_source/_build
+deps_source/_build/*
+deps_source/compile_commands.json
