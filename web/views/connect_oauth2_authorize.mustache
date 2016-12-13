@@ -7,8 +7,9 @@
   </head>
   <body>    
 		{{#accInfo}}
-			<div>
-				<button onclick="invokeApi2('{{fakeAccId}}')">{{fakeAccId}}</button>
+			<div style="padding: 5px; width: 350px; height: 64px; margin-bottom: 5px;">
+				<img style="display: inline-block; width: 64px; height: 100%; object-fit: cover;" src="{{ headimgurl }}" />
+				<button style="vertical-align: top; display: inline-block; margin-left: 5px; width: 250px; height: 100%; cursor: pointer;" onclick="invokeApi2('{{fakeAccId}}')">{{nickname}}</button>
 			</div>
 		{{/accInfo}}
   </body>

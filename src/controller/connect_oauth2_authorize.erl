@@ -22,7 +22,9 @@ init(Req, Opts) ->
                    AccInfoList = proplists:get_value(<<"acc_info">>, Data, []),
                    AccInfoMap = lists:foldl(fun({AccInfo}, Acc) ->
                                                     FakeAccId = proplists:get_value(<<"fake_acc_id">>, AccInfo),
-                                                    [#{"fakeAccId" => FakeAccId}|Acc]
+                                                    HeadImgUrl = proplists:get_value(<<"headimgurl">>, AccInfo),
+                                                    Nickname = proplists:get_value(<<"nickname">>, AccInfo),
+                                                    [#{"fakeAccId" => FakeAccId, "headimgurl" => HeadImgUrl, "nickname" => Nickname}|Acc]
                                             end, [], AccInfoList),
                    %% Dynamically render the webpage in mustache codec.
                    bbmustache:compile(Template, #{"accInfo" => AccInfoMap, "state" => State, "appid" => AppId, "redirectUri" => RedirectUri});
