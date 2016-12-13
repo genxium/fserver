@@ -9,28 +9,29 @@ init(Req, Opts) ->
     File = filename:join(app_misc:project_root_dir(), "web/views/connect_oauth2_authorize.mustache"),
     Template = bbmustache:parse_file(File),
 
-		% Attain query parameters.
+    %% Attain query parameters.
     QS = cowboy_req:parse_qs(Req),
     AppId = proplists:get_value(<<"appid">>, QS),
-		Scope = proplists:get_value(<<"scope">>, QS), % fixed to 'snsapi_user' temporarily
-		ResponseType = proplists:get_value(<<"response_type">>, QS), % fixed to 'code' temporarily
-		RedirectUri = proplists:get_value(<<"redirect_uri">>, QS),
-		ConnectRedirect = proplists:get_value(<<"connect_redirect">>, QS), % fixed to '1' temporarily
-		State = proplists:get_value(<<"state">>, QS),
+    Scope = proplists:get_value(<<"scope">>, QS), % fixed to 'snsapi_user' temporarily
+    ResponseType = proplists:get_value(<<"response_type">>, QS), % fixed to 'code' temporarily
+    RedirectUri = proplists:get_value(<<"redirect_uri">>, QS),
+    ConnectRedirect = proplists:get_value(<<"connect_redirect">>, QS), % fixed to '1' temporarily
+    State = proplists:get_value(<<"state">>, QS),
+    Body = case data_misc:app_info(AppId) of               
+               {ok, {Data}} ->
+                   AccInfoList = proplists:get_value(<<"acc_info">>, Data, []),
+                   AccInfoMap = lists:foldl(fun({AccInfo}, Acc) ->
+                                                    FakeAccId = proplists:get_value(<<"fake_acc_id">>, AccInfo),
+                                                    [#{"fakeAccId" => FakeAccId}|Acc]
+                                            end, [], AccInfoList),
+                   %% Dynamically render the webpage in mustache codec.
+                   bbmustache:compile(Template, #{"accInfo" => AccInfoMap, "state" => State, "appid" => AppId, "redirectUri" => RedirectUri});
 
-		% TODO: Attain `AccInfo` from preset file.
-		AccInfo = [
-      #{"fakeAccId" => "57cc891866ad43c987155097"},
-			#{"fakeAccId" => "57ce328c66ad43c987155098"},
-			#{"fakeAccId" => "57ce837866ad43c987155099"}
-		],
-
-		% Dynamically render the webpage in mustache codec.
-    Body = bbmustache:compile(Template, #{"accInfo" => AccInfo, "state" => State, "appid" => AppId, "redirectUri" => RedirectUri}),
-
-	% Return the webpage in HTML codec.
-	{ok, cowboy_req:reply(200, #{}, Body, Req), Opts}.
-
+               %% Return the webpage in HTML codec.
+               Ret ->
+                   jiffy:encode(Ret)
+           end,
+    {ok, cowboy_req:reply(200, #{}, Body, Req), Opts}.
 
 timestamp() ->
     {M, S, _} = os:timestamp(),
