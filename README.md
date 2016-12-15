@@ -38,7 +38,14 @@ shell@proj-root> tar zxvf package/deps_ub14.04.tar.gz -C .
 shell@proj-root> ./rebar3 compile
 ```
 
-注意: 每次修改`.erl` source file(s)后均需重新编译以使更新起效.
+注意: 每次修改`.erl` source file(s)后均需
+
+```
+shell@proj-root> rm -rf ./_build
+```
+
+
+且重新编译以使更新起效.
 
 运行
 --
