@@ -5,7 +5,7 @@
 
 
 -export([xml2proplists/1, proplists2xml/1,
-         add_sign/2]).
+         sign/2]).
 
 xml2proplists(Binary) when is_binary(Binary) ->
     xml2proplists(binary_to_list(Binary));
@@ -16,10 +16,12 @@ xml2proplists(String) ->
 val(#xmlElement{
        name = N, 
        content = [#xmlText{value = V}|_]}) ->    
-    {N, V}.
+    {N, unicode:characters_to_binary(V)}.
 
 proplists2xml(Proplists) ->
-    Body = lists:foldl(fun({Name0, Value0}, Acc) ->
+    Body = lists:foldl(fun({_Name0, undefined}, Acc) ->
+                               Acc;
+                          ({Name0, Value0}, Acc) ->
                                Name = thing_to_binary(Name0),
                                Value = thing_to_binary(Value0),
                                B = <<"<", Name/binary, "><![CDATA[", Value/binary, "]]></", Name/binary, ">" >>,
@@ -27,7 +29,7 @@ proplists2xml(Proplists) ->
                        end, <<>>, Proplists),
     <<"<xml>", Body/binary, "</xml>">>.
 
-
+thing_to_binary(X) when is_list(X) -> unicode:characters_to_binary(X);
 thing_to_binary(X) when is_integer(X) -> integer_to_binary(X);
 thing_to_binary(X) when is_float(X)   -> float_to_binary(X);
 thing_to_binary(X) when is_atom(X)    -> atom_to_binary(X, utf8);
@@ -38,8 +40,10 @@ thing_to_list(X) when is_float(X)   -> float_to_list(X);
 thing_to_list(X) when is_atom(X)    -> atom_to_list(X);
 thing_to_list(X) when is_list(X)    -> X.	%Assumed to be a string
 
-add_sign(Key, Proplists0) ->    
-    Proplists1 = lists:foldl(fun({K, V}, Acc) ->
+sign(Key, Proplists0) ->    
+    Proplists1 = lists:foldl(fun({sign, _V}, Acc) ->
+                                     Acc;
+                                ({K, V}, Acc) ->
                                      if
                                          V =:= undefined orelse
                                          V =:= "" orelse
@@ -58,7 +62,7 @@ add_sign(Key, Proplists0) ->
 
     Bin = <<Bin0/binary, "key=", Key/binary>>,
     Md5 = list_to_binary(string:to_upper(crypto_misc:str_md5(Bin))),
-    [{sign, Md5}|Proplists0].
+    Md5.
 
 %% t() ->
 %%     Proplists = [{appid,	<<"wxd930ea5d5a258f4f">>},    

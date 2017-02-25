@@ -12,14 +12,7 @@ app_info(AppId) ->
         {error, _} ->
             ?RET(?EC_ERROR_JSON);
         Array ->
-            case lists:filter(fun({Obj0}) ->
-                                      case proplists:get_value(<<"app_id">>, Obj0) of
-                                          AppId ->
-                                              true;
-                                          _ ->
-                                              false
-                                      end
-                              end, Array) of
+            case ds_misc:json_filter(Array, <<"app_id">>, AppId) of                
                 [] ->
                     ?RET(?EC_ERROR_APP_ID);
                 [Obj|_] ->

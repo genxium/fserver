@@ -8,4 +8,7 @@
 
 -define(RET(__CODE), #{ret => __CODE}).
 
+-define(FAIL(_Reason), {fail, _Reason}).
+-define(FAIL_REASON, {fail, Reason}).
+
 -endif.
