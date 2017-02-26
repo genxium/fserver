@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信支付确认页面</title> 
+  </head>
+  <body>
+    <div id="pay">
+      <h1>商品描述: {{goods_desc}}</h1>
+		{{#accInfo}}
+			<div style="padding: 5px; width: 350px; height: 64px; margin-bottom: 5px;">
+			  <img style="display: inline-block; width: 64px; height: 100%; object-fit: cover;" src="{{ headimgurl }}" />
+			  <span >{{nickname}}</span>
+              <button onclick="pay('{{openid}}', 'SUCCESS')">支付</button>
+              <button onclick="pay('{{openid}}', 'FAIL', 'NOTENOUGH')">余额不足</button>
+			</div>
+		{{/accInfo}}
+        <div style="padding: 5px; width: 350px; height: 64px; margin-bottom: 5px;">
+        <button onclick="cancel()">取消</button>
+        </div>
+    </div>
+    <div id="result">
+    </div>
+  </body>
+  <script>
+function show_result(Msg) {
+    document.getElementById("pay").style.display = 'none';
+    document.getElementById("result").textContent=Msg;
+}
+function cancel() {
+    show_result("交易已取消");
+}
+function pay(openId, indendedResultCode, intendedErrCode) {
+	var oReq = new XMLHttpRequest();
+	oReq.addEventListener("load", function() {
+	    console.dir(this.responseText);
+	    var resp = JSON.parse(this.responseText);
+	    var return_code = resp.return_code;
+        var result_code = resp.result_code;
+	    if (return_code == "SUCCESS" && result_code == "SUCCESS") {
+		    show_result("支付成功");
+	    } else {
+		    show_result("支付失败，请重新扫码尝试."+this.responseText);
+	    }
+	});
+	oReq.open("POST", "/payment/authorization");
+    parms = {
+        "app_id":"{{app_id}}",
+        "mch_id":"{{mch_id}}",
+        "out_trade_no":"{{out_trade_no}}",
+        "prepay_id":"{{prepay_id}}",
+        "openid":openId,
+        "indended_result_code":indendedResultCode,
+        "intended_err_code":intendedErrCode
+    },
+    oReq.send(JSON.stringify(parms));
+}
+
+	</script>
+</html>

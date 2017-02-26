@@ -20,6 +20,7 @@ start_http() ->
                  {"/sns/userinfo", sns_userinfo, []},
                  {"/connect/oauth2/authorize", connect_oauth2_authorize, []},
                  {"/pay/unifiedorder", pay_unifiedorder, []},
+                 {"/payment/[:act]", payment_handle, []},
                  {"/[...]", http_handler_404, []}
                 ],
     Dispatch = cowboy_router:compile([{'_', PathsList}]),

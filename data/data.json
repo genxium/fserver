@@ -1,7 +1,9 @@
 [
     {
-        "app_id":"wx5432dc1dd6164d4e",
+        "app_id":"wx2421b1c4370ec43b",
         "secret":"secret1",
+        "mch_id":"10000100",
+        "mch_secret":"mch_secret",
         "acc_info": [
             {
                 "fake_acc_id": "57cc891866ad43c987155097",

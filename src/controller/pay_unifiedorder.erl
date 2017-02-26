@@ -2,6 +2,9 @@
 
 -export([init/2]).
 
+-export([msg/1]).
+
+
 -include("common.hrl").
 -include("define_pay.hrl").
 
@@ -40,14 +43,15 @@ handle(Proplists) ->
             ets:insert(prepay, #prepay{
                                   id = {AppId, MCHId, OutTradeNo},
                                   req_proplists = Proplists,
-                                  prepay_id = PrePayId
+                                  prepay_id = PrePayId,
+                                  timestamp = time_misc:unixtime()
                                  }),
             Domain = app_misc:get_env(domain, "127.0.0.1"),
-
+            Port = app_misc:get_env(port, "8089"),
             Q = mochiweb_util:urlencode([{appid, AppId},{mch_id,MCHId},
                                          {out_trade_no, OutTradeNo},
                                          {prepay_id, PrePayId}]),
-            Url = mochiweb_util:urlunsplit_path({"http://"++Domain++"/payment/confirmation", Q, []}),
+            Url = mochiweb_util:urlunsplit_path({"http://" ++ Domain ++ ":" ++ integer_to_list(Port) ++ "/payment/confirmation", Q, []}),
             Ret = [{appid, AppId},
                    {mch_id, MCHId},
                    {device_info, proplists:get_value(device_info, Proplists)},
