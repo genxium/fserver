@@ -71,10 +71,11 @@ authorization(JSON) ->
     MCHId = ds_misc:json_get_v(JSON, <<"mch_id">>),
     OutTradeNo = ds_misc:json_get_v(JSON, <<"out_trade_no">>),
     PrePayId = ds_misc:json_get_v(JSON, <<"prepay_id">>),
-    _OpenId = ds_misc:json_get_v(JSON, <<"openid">>),
+    OpenId = ds_misc:json_get_v(JSON, <<"openid">>),
     ReturnCode = ds_misc:json_get_v(JSON, <<"indended_return_code">>, <<"SUCCESS">>),
     ResultCode = ds_misc:json_get_v(JSON, <<"indended_result_code">>),
     ErrorCode = ds_misc:json_get_v(JSON, <<"intended_err_code">>),
+    
     FailF = fun (ErrorCode0) ->
                     #{
                   return_code => ReturnCode,
@@ -82,31 +83,78 @@ authorization(JSON) ->
                   err_code  => ErrorCode0
                  }                      
             end,
-    if
-        ResultCode =:= <<"SUCCESS">> ->
-            case ets:lookup(prepay, {AppId, MCHId, OutTradeNo}) of
-                [] ->
-                    FailF(<<"ORDERCLOSED">>);
-                [PrePay] ->
-                    Now = time_misc:unixtime(),
-                    if                        
-                        PrePay#prepay.timestamp + ?TWO_HOUR_SECONDS < Now ->
-                            FailF(<<"ORDERCLOSED">>);
-                        PrePayId#prepay.prepay_id =/= PrePayId ->
-                            FailF(<<"ORDERCLOSED">>);
-                        true ->
-                            ets:delete(prepay, {AppId, MCHId, OutTradeNo}),
-                            #{
-                               return_code => ReturnCode,
-                               result_code => ResultCode
-                             }
-                    end
-            end;
-        true ->
-            #{
-          return_code => ReturnCode,
-          result_code => ResultCode,
-          err_code  => ErrorCode
-         }
+    case ets:lookup(prepay, {AppId, MCHId, OutTradeNo}) of
+        [] ->
+            FailF(<<"ORDERCLOSED">>);
+        [#prepay{
+            req_proplists = Proplists
+           } = PrePay] ->
+            Map = if
+                      ResultCode =:= <<"SUCCESS">> ->
+                          Now = time_misc:unixtime(),
+                          if                        
+                              PrePay#prepay.timestamp + ?TWO_HOUR_SECONDS < Now ->
+                                  FailF(<<"ORDERCLOSED">>);
+                              PrePayId#prepay.prepay_id =/= PrePayId ->
+                                  FailF(<<"ORDERCLOSED">>);
+                              true ->
+                                  ets:delete(prepay, {AppId, MCHId, OutTradeNo}),
+                                  #{
+                                     return_code => ReturnCode,
+                                     result_code => ResultCode
+                                   }
+                          end;                
+                      true ->
+                          #{
+                        return_code => ReturnCode,
+                        result_code => ResultCode,
+                        err_code  => ErrorCode
+                       }
+                  end,
+            Map2 = #{
+              appid => proplists:get_value(appid, Proplists),
+              mch_id => proplists:get_value(mch_id, Proplists),
+              device_info => proplists:get_value(device_info, Proplists),
+              nonce_str => ds_misc:rand_str(16),
+              openid => OpenId,
+              trade_type => proplists:get_value(trade_type, Proplists),
+              bank_type => <<"CMC">>,
+              total_fee => proplists:get_value(total_fee, Proplists),
+              fee_type => <<"CNY">>,
+              cash_fee => 0,
+              transaction_id => ds_misc:rand_str(16),
+              out_trade_no => proplists:get_value(out_trade_no, Proplists),
+              attach => proplists:get_value(attach, Proplists),
+              time_end => yyyyMMddHHmmss()
+             },
+            SendProplists = maps:to_list(maps:merge(Map, Map2)),
+            case data_misc:app_info(AppId) of
+                {ok, AppData} ->
+                    MCHSecret = ds_misc:json_get_v(AppData, <<"mch_secret">>),
+                    Sign = wechat_misc:sign(MCHSecret, SendProplists),
+                    Body = wechat_misc:proplists2xml([{sign, Sign}|SendProplists]),
+                    URL = proplists:get_value(notify_url, Proplists),
+                    pay_notify:start(binary_to_list(URL), Body);
+                _ ->
+                    ?WARNING_MSG("not app id ~p", [AppId]),
+                    ignore
+            end,
+            Map
     end.
     
+yyyyMMddHHmmss() ->
+    {{Year, Month, Day}, {Hour, Minute, Second}} = calendar:now_to_local_time(os:timestamp()),
+    <<(integer_to_binary(Year))/binary,  
+      (one_to_two(Month))/binary,  
+      (one_to_two(Day))/binary, 
+      (one_to_two(Hour))/binary, 
+      (one_to_two(Minute))/binary,
+      (one_to_two(Second))/binary>>.
+
+one_to_two(One) 
+  when One < 10 ->
+    <<"0", (integer_to_binary(One))/binary>>;
+one_to_two(Two) ->
+    integer_to_binary(Two).
+
+

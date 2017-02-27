@@ -21,6 +21,7 @@ start_http() ->
                  {"/connect/oauth2/authorize", connect_oauth2_authorize, []},
                  {"/pay/unifiedorder", pay_unifiedorder, []},
                  {"/payment/[:act]", payment_handle, []},
+                 {"/test/pay_notify", test_pay_notify, []},
                  {"/[...]", http_handler_404, []}
                 ],
     Dispatch = cowboy_router:compile([{'_', PathsList}]),

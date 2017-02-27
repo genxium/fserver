@@ -8,7 +8,8 @@
   {applications,
    [kernel,
     stdlib,
-    cowboy
+    cowboy,
+    ibrowse
    ]},
   {env,[
         {log_level, debug},
