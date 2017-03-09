@@ -6,7 +6,7 @@
 
 app_info(AppId) ->
     ProjectRootDir = app_misc:project_root_dir(),
-    DataFile = filename:join([ProjectRootDir, "data/data.json"]),
+    DataFile = filename:join([ProjectRootDir, "data/data.conf"]),
     {ok, Binary} = file:read_file(DataFile),
     case catch jiffy:decode(Binary) of
         {error, _} ->

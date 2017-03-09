@@ -24,3 +24,5 @@ deps/
 deps_source/_build
 deps_source/_build/*
 deps_source/compile_commands.json
+config/*.conf
+data/*.conf

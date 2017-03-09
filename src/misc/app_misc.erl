@@ -57,7 +57,7 @@ get_env(Key) ->
 
 get_env(Key, Def) ->
     ProjectRootDir = project_root_dir(),
-    Opts = case file:consult(filename:join(ProjectRootDir, "config/app.config")) of
+    Opts = case file:consult(filename:join(ProjectRootDir, "config/app.conf")) of
                {error,enoent} ->
                    [];
                {ok, Opts0} ->
