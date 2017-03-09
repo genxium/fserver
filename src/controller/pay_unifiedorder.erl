@@ -38,30 +38,36 @@ handle(Proplists) ->
     case verify_data(Proplists) of
         ?FAIL_REASON ->
             ?FAIL_REASON;
-        {ok, AppData, AppId, MCHId, MCHSecret, OutTradeNo, TradeType} ->
-            PrePayId = erlang:unique_integer([positive, monotonic]),
-            ets:insert(prepay, #prepay{
-                                  id = {AppId, MCHId, OutTradeNo},
-                                  req_proplists = Proplists,
-                                  prepay_id = PrePayId,
-                                  timestamp = time_misc:unixtime()
-                                 }),
-            Domain = app_misc:get_env(domain, "127.0.0.1"),
-            Port = app_misc:get_env(port, "8089"),
-            Q = mochiweb_util:urlencode([{appid, AppId},{mch_id,MCHId},
-                                         {out_trade_no, OutTradeNo},
-                                         {prepay_id, PrePayId}]),
-            Url = mochiweb_util:urlunsplit_path({"http://" ++ Domain ++ ":" ++ integer_to_list(Port) ++ "/payment/confirmation", Q, []}),
-            Ret = [{appid, AppId},
-                   {mch_id, MCHId},
-                   {device_info, proplists:get_value(device_info, Proplists)},
-                   {nonce_str, ds_misc:rand_str(16)},
-                   {result_code, <<"SUCCESS">>},
-                   {trade_type, TradeType},
-                   {prepay_id, PrePayId},
-                   {code_url, Url}],             
-            Sign = wechat_misc:sign(MCHSecret, Ret),
-            {ok, [{sign, Sign}|Ret]}
+        {Ret, AppData, AppId, MCHId, MCHSecret, OutTradeNo, TradeType} ->
+            Reply1 = [{appid, AppId},
+                     {mch_id, MCHId},
+                     {device_info, proplists:get_value(device_info, Proplists)},
+                     {nonce_str, ds_misc:rand_str(16)}],
+            Reply2 = case Ret of
+                         ok ->
+                             PrePayId = erlang:unique_integer([positive, monotonic]),
+                             ets:insert(prepay, #prepay{
+                                                   id = {AppId, MCHId, OutTradeNo},
+                                                   req_proplists = Proplists,
+                                                   prepay_id = PrePayId,
+                                                   timestamp = time_misc:unixtime()
+                                                  }),
+                             Domain = app_misc:get_env(domain, "127.0.0.1"),
+                             Port = app_misc:get_env(port, "8089"),
+                             Q = mochiweb_util:urlencode([{appid, AppId},{mch_id,MCHId},
+                                                          {out_trade_no, OutTradeNo},
+                                                          {prepay_id, PrePayId}]),
+                             Url = mochiweb_util:urlunsplit_path({"http://" ++ Domain ++ ":" ++ integer_to_list(Port) ++ "/payment/confirmation", Q, []}),            
+                             [{result_code, <<"SUCCESS">>},
+                              {trade_type, TradeType},
+                              {prepay_id, PrePayId},
+                              {code_url, Url}];
+                         {result_code, Code} ->
+                             [{result_code, <<"FAIL">>}, {err_code, Code}]
+                     end,
+            Reply = Reply1 ++ Reply2,
+            Sign = wechat_misc:sign(MCHSecret, Reply),
+            {ok, [{sign, Sign}|Reply]}
     end.
 
 verify_data(Proplists) ->
@@ -79,28 +85,35 @@ verify_data(Proplists) ->
                     ?DEBUG("client sign ~s", [ClientSign]),
                     if
                         ServerSign =/= ClientSign ->
-                            ?FAIL(<<"SIGNERROR">>);
+                           ?FAIL(<<"SIGNERROR">>);
                         true ->
                             ClientMCHId = proplists:get_value(mch_id, Proplists),
                             ServerMCHId = ds_misc:json_get_v(AppData, <<"mch_id">>),
-                            if
-                                ClientMCHId =/= ServerMCHId ->
-                                    ?FAIL(<<"MCHID_NOT_EXIST">>);
-                                true ->
-                                    TradeType = proplists:get_value(trade_type, Proplists),
-                                    if
-                                        TradeType =/= <<"NATIVE">> ->
-                                            ?FAIL(<<"NOT_SUPPORT_FUNC">>);
-                                        true ->
-                                            OutTradeNo = proplists:get_value(out_trade_no, Proplists),
-                                            case ets:lookup(prepay, {AppId, ClientMCHId, OutTradeNo}) of
-                                                [_|_] ->
-                                                    ?FAIL(<<"OUT_TRADE_NO_USED">>);
-                                                [] ->
-                                                    {ok, AppData, AppId, ClientMCHId, MCHSecret, OutTradeNo, TradeType}
-                                            end
-                                    end
-                            end                            
+                            TradeType = proplists:get_value(trade_type, Proplists),
+                            OutTradeNo = proplists:get_value(out_trade_no, Proplists),
+                            
+                            Ret = if
+                                      ClientMCHId =/= ServerMCHId ->
+                                          {result_code, <<"MCHID_NOT_EXIST">>};
+                                      true ->
+                                          if
+                                              TradeType =/= <<"NATIVE">> ->
+                                                  {result_code, <<"NOT_SUPPORT_FUNC">>};
+                                              true ->
+                                                  case re:run(OutTradeNo, "^[a-zA-Z0-9_-]{0,32}$") of
+                                                      {match, _} ->
+                                                          case ets:lookup(prepay, {AppId, ClientMCHId, OutTradeNo}) of
+                                                              [_|_] ->
+                                                                  {result_code, <<"OUT_TRADE_NO_USED">>};
+                                                              [] ->
+                                                                  ok
+                                                          end;
+                                                      nomatch ->
+                                                          {result_code, <<"OUT_TRADE_NO_ERR">>}
+                                                  end
+                                          end
+                                  end,
+                            {Ret, AppData, AppId, ClientMCHId, MCHSecret, OutTradeNo, TradeType}
                     end;
                 _ ->
                     ?FAIL(<<"APPID_NOT_EXIST">>)
@@ -203,4 +216,6 @@ msg(<<"REQUIRE_POST_METHOD">>) ->
 msg(<<"POST_DATA_EMPTY">>) ->
 	<<"post数据为空"/utf8>>;
 msg(<<"NOT_UTF8">>) ->
-	<<"编码格式错误"/utf8>>.	
+	<<"编码格式错误"/utf8>>;	
+msg(<<"OUT_TRADE_NO_ERR">>) ->
+	<<"订单号格式错误"/utf8>>.
