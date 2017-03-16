@@ -113,16 +113,16 @@ to_str(Term) ->
 %%             parse_parameter(KeyValues, ParameterList, [decoder(DataType, Value)|Acc])            
 %%     end.
 
-decoder(int, Value) ->
-    erlang:binary_to_integer(Value);
-decoder(atom, Value) ->
-    erlang:binary_to_existing_atom(Value, utf8);
-decoder(string, Value) ->
-    erlang:binary_to_list(Value);
-decoder(json, Value) ->
-    jiffy:decode(Value);
-decoder(_, Value) ->
-    Value.
+%% decoder(int, Value) ->
+%%     erlang:binary_to_integer(Value);
+%% decoder(atom, Value) ->
+%%     erlang:binary_to_existing_atom(Value, utf8);
+%% decoder(string, Value) ->
+%%     erlang:binary_to_list(Value);
+%% decoder(json, Value) ->
+%%     jiffy:decode(Value);
+%% decoder(_, Value) ->
+%%     Value.
 
 verify_type(List) ->
     lists:all(fun({Value, Type}) ->

@@ -35,10 +35,10 @@ thing_to_binary(X) when is_float(X)   -> float_to_binary(X);
 thing_to_binary(X) when is_atom(X)    -> atom_to_binary(X, utf8);
 thing_to_binary(X) when is_binary(X)    -> X.	%Assumed to be a string
 
-thing_to_list(X) when is_integer(X) -> integer_to_list(X);
-thing_to_list(X) when is_float(X)   -> float_to_list(X);
-thing_to_list(X) when is_atom(X)    -> atom_to_list(X);
-thing_to_list(X) when is_list(X)    -> X.	%Assumed to be a string
+%% thing_to_list(X) when is_integer(X) -> integer_to_list(X);
+%% thing_to_list(X) when is_float(X)   -> float_to_list(X);
+%% thing_to_list(X) when is_atom(X)    -> atom_to_list(X);
+%% thing_to_list(X) when is_list(X)    -> X.	%Assumed to be a string
 
 sign(Key, Proplists0) ->    
     Proplists1 = lists:foldl(fun({sign, _V}, Acc) ->

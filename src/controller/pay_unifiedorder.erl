@@ -10,6 +10,7 @@
 
 %% http://127.0.0.1:8089/pay/unifiedorder
 init(Req, Opts) ->
+    ?DEBUG("~p", [Req]),
     {Reply, Req1} = 
         case cowboy_req:method(Req) of        
             <<"POST">> ->
@@ -38,7 +39,7 @@ handle(Proplists) ->
     case verify_data(Proplists) of
         ?FAIL_REASON ->
             ?FAIL_REASON;
-        {Ret, AppData, AppId, MCHId, MCHSecret, OutTradeNo, TradeType} ->
+        {Ret, _AppData, AppId, MCHId, MCHSecret, OutTradeNo, TradeType} ->
             Reply1 = [{appid, AppId},
                      {mch_id, MCHId},
                      {device_info, proplists:get_value(device_info, Proplists)},

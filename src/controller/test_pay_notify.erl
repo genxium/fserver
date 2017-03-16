@@ -5,6 +5,7 @@
 -include("common.hrl").
 
 init(Req, Opts) ->
+    ?DEBUG("~p", [Req]),
     {Proplists, Req1} = case cowboy_req:has_body(Req) of
                              true ->
                                  {ok, Body, BodyReq} = cowboy_req:read_body(Req),

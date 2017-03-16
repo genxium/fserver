@@ -13,10 +13,10 @@ init(Req, Opts) ->
     %% Attain query parameters.
     QS = cowboy_req:parse_qs(Req),
     AppId = proplists:get_value(<<"appid">>, QS),
-    Scope = proplists:get_value(<<"scope">>, QS), % fixed to 'snsapi_user' temporarily
-    ResponseType = proplists:get_value(<<"response_type">>, QS), % fixed to 'code' temporarily
+    %Scope = proplists:get_value(<<"scope">>, QS), % fixed to 'snsapi_user' temporarily
+    %ResponseType = proplists:get_value(<<"response_type">>, QS), % fixed to 'code' temporarily
     RedirectUri = proplists:get_value(<<"redirect_uri">>, QS),
-    ConnectRedirect = proplists:get_value(<<"connect_redirect">>, QS), % fixed to '1' temporarily
+    %ConnectRedirect = proplists:get_value(<<"connect_redirect">>, QS), % fixed to '1' temporarily
     State = proplists:get_value(<<"state">>, QS),
     Body = case data_misc:app_info(AppId) of               
                {ok, {Data}} ->
@@ -37,6 +37,3 @@ init(Req, Opts) ->
            end,
     {ok, cowboy_req:reply(200, #{}, Body, Req), Opts}.
 
-timestamp() ->
-    {M, S, _} = os:timestamp(),
-    M * 1000000 + S.
