@@ -35,7 +35,8 @@ sec(_) ->
 
 loop(Url, Body, Times) ->
     ?DEBUG("Url ~s, Body ~s, Times ~p", [Url, Body, Times]),
-    Ret = case ibrowse:send_req(Url, [], post, Body, [], 5000) of
+    
+    Ret = case ibrowse:send_req(Url, [{<<"content-type">>, <<"application/xml">>}], post, Body, [], 5000) of
               {ok, "200", _, RecBody} ->
                   case catch wechat_misc:xml2proplists(RecBody) of
                       {'EXIT', _} ->
