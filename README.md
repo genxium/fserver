@@ -66,6 +66,6 @@ shell@proj-root> ./sh/app/fakeoauth2server stop
 其他
 --
 
-- 假账号数据文件为`data/data.json`.
-
-- 使用的端口在`config/app.config`修改.
+- 假账号数据配置文件为`data/data.conf.
+- 端口配置文件为`config/app.config`修改.
+- 首次使用时请执行`proj-root/overwrite_configs`以从相应的配置文件模板产生这些配置文件。
